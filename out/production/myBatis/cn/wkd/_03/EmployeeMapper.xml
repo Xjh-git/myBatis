@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.wkd._03.EmployeeDao">
+
+    <resultMap type="cn.wkd._03.Employee" id="employee">
+        <id column="eid" property="id"/>
+        <result column="name" property="name"/>
+        <result column="salary" property="salary"/>
+        <result column="cid" property="category_id"/>
+    </resultMap>
+
+
+    <resultMap type="cn.wkd._03.Employee" id="e">
+        <id column="eid" property="id"/>
+        <result column="name" property="name"/>
+        <result column="salary" property="salary"/>
+        <result column="cid" property="category_id"/>
+
+        <result column="tid" property="type.id"/>
+        <result column="typeName" property="type.typeName"/>
+    </resultMap>
+    <select id="queryEmpById" parameterType="int" resultMap="employee">
+		select e.id eid,
+			   e.name name,
+			   e.salary salary,
+			   e.cid cid
+		 from emp e where id = #{id}
+	</select>
+
+
+    <!-- public List<Product> queryProductAndTypeById(long id); -->
+    <select id="queryEmpAndTypeById" parameterType="int" resultMap="e">
+		select  e.id eid,
+			   e.name name,
+			   e.salary salary,
+			   e.cid cid,
+
+		       t.id tid,
+		       t.typeName typeName
+		  from emp e,e_type t
+		  where e.cid = t.id
+		  and e.id = #{id}
+
+	</select>
+
+</mapper>

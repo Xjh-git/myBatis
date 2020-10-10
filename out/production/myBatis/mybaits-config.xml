@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace:命名空间：自定义 唯一
+-->
+<mapper namespace="org.mybatis.example.BlogMapper">
+
+    <!--
+        select ： 查询
+        id ：唯一标识 自定义
+        parameterType ： 参数类型
+        resultType ： 返回类型
+    -->
+    <select id="selectUser" parameterType="int" resultType="cn.wkd._01.User">
+        select * from user where id = #{id}
+  </select>
+
+
+</mapper>

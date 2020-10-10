@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace:命名空间：必须是某个接口的完全限定名 唯一
+-->
+<mapper namespace="cn.wkd._02.IUserDAO">
+
+    <!--
+        select ： 查询
+        id ：唯一标识 必须是接口里面的方法名
+        parameterType ： 参数类型
+        resultType ： 返回类型
+    -->
+    <select id="queryUserById" parameterType="int" resultType="cn.wkd._02.User">
+        select * from user where id = #{id}
+  </select>
+
+    <insert id="addUser" parameterType="cn.wkd._02.User">
+        insert into user(
+                username,
+                password
+        )values (
+                #{username},
+                #{password}
+        )
+    </insert>
+    <delete id="deleteUserById" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+    <select id="queryAllUser" resultType="cn.wkd._02.User">
+        select  * from user;
+    </select>
+    <update id="updateUser" parameterType="cn.wkd._02.User">
+        update user
+        set username = #{username},
+        password = #{password}
+        where id = #{id};
+    </update>
+
+    <select id="queryUserByMap" parameterType="map" resultType="cn.wkd._02.User">
+        select u.id id,
+		       u.username username,
+		       u.password password
+        from user u
+		where username = #{name}
+		and password = #{pwd}
+    </select>
+    <select id="queryUserByParams" parameterType="map" resultType="cn.wkd._02.User">
+        select u.id id,
+        u.username username,
+        u.password password
+        from user u
+        <where>
+            <if test="username!=null and username!=''">
+                username = #{username}
+            </if>
+            <if test="password!=null and password!=''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatch" parameterType="list">
+        delete from user where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="addUserBatch" parameterType="cn.wkd._02.User">
+        insert into user(username,password)
+        values
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username},#{user.password})
+        </foreach>
+    </insert>
+</mapper>
